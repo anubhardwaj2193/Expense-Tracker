@@ -1,10 +1,18 @@
-import React, { useRef } from "react";
+import React, { useRef,useEffect, useState } from "react";
 import { Form ,InputGroup,ListGroup,Button} from "react-bootstrap";
 import { Navigate, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 
 const UpdateProfile = ()=>{
 const navigate = useNavigate();
+
+const TokenId = localStorage.getItem('tokenId')
+const [userData,setUserData]= useState('')
+
+const setData = (data)=>{
+setUserData(data)
+}
 
 
 const fullNameRef = useRef();
@@ -14,52 +22,82 @@ const urlRef = useRef();
 event.preventDefault();
     const fullname = fullNameRef.current.value;
     const urLPhoto = urlRef.current.value;
-const tokenId = localStorage.getItem('tokenId')
-console.log(tokenId,fullname,urLPhoto)
 
-    let url =
-    `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.REACT_APP_FireBaseAPI}`
+
+
     
-    try {
-    const res = await fetch(url, {
-    method: 'POST',
-    body: JSON.stringify({
-    idToken:[tokenId.idToken],
-    displayName:fullname,
-    photoUrl:urLPhoto,
-    returnSecureToken:true
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    });
+try{
+    const obj = {
+        "idToken": TokenId,
+        "displayName": fullname,
+        "photoUrl": urLPhoto,
+        "returnSecureToken": true,
+      };
+      const head = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const res = await axios.post(
+        `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.REACT_APP_FireBaseAPI}`,
+        obj,
+        head
+      );
+      console.log(res)
     
-    if (res.ok) {
+    if (res.status==200) {
     alert('User has successfully signed up.')
     navigate('/expensetracker',{replace:true})
-    const data = await res.json();
-    const convertedData = JSON.stringify(data)
-  localStorage.setItem('tokenId', convertedData);
-  console.log(data)
+    console.log(res)
+
     
     } else {
     const data = await res.json();
     
     throw new Error(data.error.message);
     }
+
     } catch (err) {
         console.log(err)
     alert(err.message);
     }
      }
 
-
+     useEffect(() => {
+        async function getData() {
+          try {
+            console.log(TokenId);
+            const obj1 = {
+              idToken: TokenId,
+            };
+            const head = {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            };
+            const resData = await axios.post(
+              `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${process.env.REACT_APP_FireBaseAPI}`,
+              obj1
+            );
+    
+            console.log(resData.data.users[0])
+            setData(resData.data.users[0])
+            // localStorage.setItem('userData',resData.data.users[0]);
+            // console.log(localStorage.getItem('userData').displayName)
+            // console.log(userData)
+           
+          } catch (err) {
+            alert("somthing went wrong");
+          }
+        }
+        getData();
+      }, []);
 return(
 <React.Fragment>
 <Form>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Full Name</Form.Label>
-        <Form.Control type="text" placeholder="Enter Your Full Name" ref={fullNameRef} />
+        <Form.Control type="text" placeholder={userData.displayName}ref={fullNameRef} />
         <Form.Text className="text-muted">
           We'll never share your details with anyone else.
         </Form.Text>
@@ -67,7 +105,7 @@ return(
 
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Profile Photo URL</Form.Label>
-        <Form.Control type="text" placeholder="URL Link.JPG" ref={urlRef}/>
+        <Form.Control type="text" placeholder={userData.photoUrl} ref={urlRef}/>
       </Form.Group>
       <Form.Group className="mb-3" controlId="formBasicCheckbox">
       
