@@ -1,10 +1,12 @@
 import React from "react";
 import { Button, Card } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import axios from "axios";
 
 const Expense = (props) => {
 console.log(props);
-
+const expenses = useSelector(state=>state.expense.expenses);
+// console.log(expenses)
 
  async function deleteExpense(){
     try{
@@ -14,7 +16,7 @@ console.log(props);
           
           if (res.status==200) {
             
-          alert('Expense Got Deleted')
+          
           
           
           console.log(res)
@@ -32,7 +34,7 @@ console.log(props);
           alert(err.message);
           }
     
-
+props.getExpenses()
 }
 
 

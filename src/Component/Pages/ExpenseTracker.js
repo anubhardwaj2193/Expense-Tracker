@@ -1,12 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Container,Form } from "react-bootstrap";
 import { MDBBtn, MDBInput } from "mdb-react-ui-kit";
 import axios from "axios";
 import Expense from "./Expense";
+import { expenseActions } from "../store";
 
 const ExpenseTracker = ()=>{
 const [ExpensesState,setExpenses] = useState('')
 
+
+const dispatch = useDispatch();
+const expenses = useSelector(state=>state.expense.expenses);
 
 
 const addExpense = (data)=>{
@@ -23,6 +28,7 @@ function editExpense(data){
     descriptionRef.current.value = data.description
     categoryRef.current.value = data.category
     }
+    
 
 async function saveExpense(event){
 event.preventDefault()
@@ -41,12 +47,21 @@ try{
 
 
       const res = await axios.post(`${process.env.REACT_APP_FireBaseDataBase}expenses.json`,obj,head);
-      console.log(res)
+      const id =res.data.name
+
+      const savedata= {[id]:obj}
+      console.log(savedata)
+
     
     if (res.status==200) {
-    alert('Expense Added')
+      // dispatch(expenseActions.addExpense(savedata))
+      amountRef.current.value='';
+      descriptionRef.current.value='';
+      categoryRef.current.value='';
+      getExpenses()
     
-    console.log(res)
+    
+    console.log(savedata)
     
 
     
@@ -65,6 +80,8 @@ try{
 
 
 useEffect(()=>{
+getExpenses()
+},[])
 
     async function getExpenses(){
     try{
@@ -74,11 +91,12 @@ useEffect(()=>{
         
         if (res.status==200) {
             setExpenses(res.data)
-        console.log(ExpensesState)
-        alert('Got the Expenses')
+            dispatch(expenseActions.addExpense(res.data))
         
         
-        console.log(ExpensesState)
+        
+        console.log(res.data)
+        console.log('useEffect called')
        
     
         
@@ -93,20 +111,18 @@ useEffect(()=>{
         alert(err.message);
         }
     }
-
-    getExpenses()
     
-},[])
+
 
 
 return (
     <React.Fragment>
 <Container className='m-2'>
     <Form>
-     <MDBInput wrapperClass='mb-4' label='amount' id='email' type='email' ref={amountRef}/>
+     <MDBInput wrapperClass='mb-4' label='amount' id='amount' type='number' ref={amountRef}/>
           <MDBInput wrapperClass='mb-4' label='description' id='description' type='description' ref={descriptionRef}/>
           <Form.Select aria-label="Default select example" ref={categoryRef}>
-      <option>Open this select menu</option>
+      <option>Select the Type of Expense</option>
       <option value="Food">Food</option>
       <option value="Petrol">Petrol</option>
       <option value="Salary">Movie</option>
@@ -116,13 +132,13 @@ return (
           </Form>
 </Container>
 <Container>
-{Object.keys(ExpensesState).length > 0 ? (
-    Object.entries(ExpensesState).map(([id, expense]) => (
-      <Expense key={id} id={id} expense={expense} editExpense={editExpense} />
-    ))
-  ) : (
-    <p>No expenses found.</p>
-  )}
+{expenses.length > 0 ? (
+  Object.keys(expenses[0] ?? {}).map(id => (
+    <Expense key={id} id={id} expense={expenses[0][id]} editExpense={editExpense} getExpenses={getExpenses} />
+  ))
+) : (
+  <p>No expenses found.</p>
+)}
 
 </Container>
     </React.Fragment>
