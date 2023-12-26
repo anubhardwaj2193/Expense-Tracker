@@ -35,8 +35,8 @@ const expenseSlice = createSlice({
          console.log(state.expenses)
         }
 ,
-        setIsPremium(state){
-         state.isPremium = true;
+        setIsPremium(state,action){
+         state.isPremium = action.payload;
         } 
     }
 })
