@@ -7,6 +7,8 @@ import Expense from "./Expense";
 const ExpenseTracker = ()=>{
 const [ExpensesState,setExpenses] = useState('')
 
+
+
 const addExpense = (data)=>{
 
     setExpenses(data)
@@ -15,6 +17,12 @@ const amountRef = useRef();
 const descriptionRef = useRef();
 const categoryRef = useRef();
 
+
+function editExpense(data){
+    amountRef.current.value = data.amount
+    descriptionRef.current.value = data.description
+    categoryRef.current.value = data.category
+    }
 
 async function saveExpense(event){
 event.preventDefault()
@@ -110,7 +118,7 @@ return (
 <Container>
 {Object.keys(ExpensesState).length > 0 ? (
     Object.entries(ExpensesState).map(([id, expense]) => (
-      <Expense key={id} id={id} expense={expense} />
+      <Expense key={id} id={id} expense={expense} editExpense={editExpense} />
     ))
   ) : (
     <p>No expenses found.</p>
