@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   MDBContainer,
   MDBTabs,
@@ -13,10 +13,18 @@ import {
 }
 from 'mdb-react-ui-kit';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { authActions } from '../store';
 
 
 
 const Login = ()=>{
+
+   const dispatch = useDispatch();
+  
+  
+
+ 
 
  const navigate = useNavigate();
   const signUpEmailRef =useRef('')
@@ -57,6 +65,10 @@ const convertedData = JSON.stringify(data)
 navigate('/expensetracker',{replace:true})
 localStorage.setItem('token', convertedData);
 localStorage.setItem('tokenId', data.idToken);
+dispatch(authActions.setToken(data.idToken))
+
+
+
 
 } else {
 const data = await res.json();
