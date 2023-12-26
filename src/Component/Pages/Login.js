@@ -12,7 +12,7 @@ import {
   MDBCheckbox
 }
 from 'mdb-react-ui-kit';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 
 
 
@@ -176,7 +176,7 @@ else{
 
           <div className="d-flex justify-content-between mx-4 mb-4">
             <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Remember me' />
-            <a href="!#">Forgot password?</a>
+           <Link  to= "forgotpassword">Forgot password?</Link>
           </div>
 
           <MDBBtn className="mb-4 w-100" onClick={signInHandler}>Sign in</MDBBtn>

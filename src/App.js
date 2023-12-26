@@ -18,6 +18,7 @@ import ExpenseTracker from "./Component/Pages/ExpenseTracker";
 import Error from "./Component/Pages/Error";
 import UpdateProfile from "./Component/Pages/UpdateProfile";
 import VerifyEmail from "./Component/Pages/VerifyEmail";
+import ForgotPassword from "./Component/Pages/ForgotPassword";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/expensetracker" element={<ExpenseTracker />} />
           <Route path="updateprofile" element={<UpdateProfile/>}/>
           <Route path="verifyemail" element={<VerifyEmail/>}/>
+          <Route path="forgotpassword" element={<ForgotPassword/>}/>
           <Route path="*" element={<Error />} />
         </Route>
       </Routes>
