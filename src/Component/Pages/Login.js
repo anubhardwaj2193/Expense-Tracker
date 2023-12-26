@@ -90,11 +90,12 @@ if(signUpPasswordRef.current.value==signUpConfirmPasswordRef.current.value){
   });
   
   if (res.ok) {
+    console.log(res)
   alert('User has successfully signed up.')
   navigate('/expensetracker',{replace:true})
   const data = await res.json();
   const convertedData = JSON.stringify(data)
-localStorage.setItem('tokenId', convertedData);
+  localStorage.setItem('tokenId', data.idToken);
   
   } else {
   const data = await res.json();

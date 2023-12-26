@@ -42,7 +42,7 @@ export default function HeaderSite() {
                 </MDBNavbarLink>
               </MDBNavbarItem>
               <MDBNavbarItem>
-                <MDBNavbarLink href='#'>Features</MDBNavbarLink>
+                <MDBNavbarLink >Features</MDBNavbarLink>
               </MDBNavbarItem>
               <MDBNavbarItem>
                 <MDBNavbarLink href='#'>Pricing</MDBNavbarLink>

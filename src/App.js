@@ -17,6 +17,7 @@ import HeaderSite from "./Component/UI/HeaderSite";
 import ExpenseTracker from "./Component/Pages/ExpenseTracker";
 import Error from "./Component/Pages/Error";
 import UpdateProfile from "./Component/Pages/UpdateProfile";
+import VerifyEmail from "./Component/Pages/VerifyEmail";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/expensetracker" element={<ExpenseTracker />} />
           <Route path="updateprofile" element={<UpdateProfile/>}/>
+          <Route path="verifyemail" element={<VerifyEmail/>}/>
           <Route path="*" element={<Error />} />
         </Route>
       </Routes>
