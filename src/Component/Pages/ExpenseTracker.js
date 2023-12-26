@@ -4,14 +4,29 @@ import { Container,Form } from "react-bootstrap";
 import { MDBBtn, MDBInput } from "mdb-react-ui-kit";
 import axios from "axios";
 import Expense from "./Expense";
-import { expenseActions } from "../store";
+import { expenseActions, premiumActions, PremiumActions } from "../store";
+import CsvDownloadButton from "./CsvDownloadButton";
 
 const ExpenseTracker = ()=>{
 
 
   const dispatch = useDispatch();
   const expenses = useSelector(state => state.expense.expenses);
-  const isPremium = useSelector(state => state.expense.isPremium);
+  const isPremium = useSelector(state => state.premium.isPremium);
+  const showButton = useSelector(state=>state.premium.showButton)
+  const changeTheme = useSelector(state=>state.premium.theme)
+
+function changeShowButton(){
+  dispatch(premiumActions.showBuyButton(false))
+  
+}
+  
+function toggleTheme(event){
+
+event.preventDefault()
+dispatch(premiumActions.changeTheme())
+}
+
 
   const amountRef = useRef();
   const descriptionRef = useRef();
@@ -66,9 +81,9 @@ const ExpenseTracker = ()=>{
         let sum = 0;
         Object.keys(res.data).map((key) => (sum += Number(res.data[key].amount)));
         if (sum > 10000) {
-          dispatch(expenseActions.setIsPremium(true));
+          dispatch(premiumActions.setIsPremium(true));
         } else {
-          dispatch(expenseActions.setIsPremium(false));
+          dispatch(premiumActions.setIsPremium(false));
         }
       } else {
         const data = await res.json();
@@ -92,7 +107,9 @@ return (
       <option value="Salary">Movie</option>
     </Form.Select>
           <MDBBtn onClick={saveExpense}>Add Expense</MDBBtn>
-          { isPremium && <MDBBtn>Buy Premium</MDBBtn>}
+          { isPremium &&  showButton && <MDBBtn className='m-2' onClick={changeShowButton}>Buy Premium</MDBBtn>}
+          {showButton ==false && <MDBBtn className='m-2' onClick={toggleTheme}>Change Theme</MDBBtn>}
+          {showButton == false &&<CsvDownloadButton/>}
 
           </Form>
 </Container>

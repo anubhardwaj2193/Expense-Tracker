@@ -12,8 +12,8 @@ const authSlice = createSlice({
             state.token = action.payload;
         },
 
-        loggedIn(state){
-            state.isLoggedIn=true;
+        loggedIn(state,action){
+            state.isLoggedIn= action.payload;
         }
         ,
          loggedOut(state){
@@ -24,7 +24,7 @@ const authSlice = createSlice({
 
 const initialExpenseState = {
     expenses: [],
-    isPremium:false
+
 }
 const expenseSlice = createSlice({
     name:'expenses',
@@ -35,18 +35,43 @@ const expenseSlice = createSlice({
          console.log(state.expenses)
         }
 ,
-        setIsPremium(state,action){
-         state.isPremium = action.payload;
-        } 
     }
+})
+
+const initialPremium={
+    isPremium: false,
+    showButton:true,
+    theme: 'false'
+
+}
+
+const premiumSlice = createSlice({
+
+    name:'premium',
+    initialState:initialPremium,
+    reducers:{
+        setIsPremium(state,action){
+            state.isPremium=action.payload;
+        },
+        showBuyButton(state,action){
+        state.showButton = action.payload
+        }
+        ,
+
+        changeTheme(state){
+         state.theme = !state.theme;
+        }
+    }
+
 })
 
 
 const store = configureStore({
-    reducer: {auth:authSlice.reducer,expense:expenseSlice.reducer}
+    reducer: {auth:authSlice.reducer,expense:expenseSlice.reducer, premium:premiumSlice.reducer}
 })
 
 
 export const authActions = authSlice.actions;
 export const expenseActions = expenseSlice.actions;
+export const premiumActions = premiumSlice.actions;
 export default store;

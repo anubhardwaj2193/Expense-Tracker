@@ -12,9 +12,9 @@ function removeFromLocal (){
   return (
     <React.Fragment>
       <h1>Welcome To Expense Tracker</h1>
-      <Link to='/updateprofile'><Button >Complete your Profile</Button></Link>
-      <Link to='/verifyemail'><Button >Verify The Email</Button></Link>
-      <Link to="/Login"><Button onClick={removeFromLocal}>Logout</Button></Link>
+      <Link to='/updateprofile'><Button className='m-2' >Complete your Profile</Button></Link>
+      <Link to='/verifyemail'><Button className='m-2' >Verify The Email</Button></Link>
+      <Link to="/Login"><Button className='m-2' onClick={removeFromLocal}>Logout</Button></Link>
       
     </React.Fragment>
   );

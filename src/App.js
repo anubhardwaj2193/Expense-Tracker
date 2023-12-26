@@ -20,10 +20,24 @@ import UpdateProfile from "./Component/Pages/UpdateProfile";
 import VerifyEmail from "./Component/Pages/VerifyEmail";
 import ForgotPassword from "./Component/Pages/ForgotPassword";
 import ExpenseTracker from "./Component/Pages/ExpenseTracker"
+import './App.css';
+import { useSelector } from "react-redux";
+
 
 function App() {
+
+  const isTheme = useSelector((state)=>state.premium.theme)
+   if(!isTheme){
+    document.body.className='dark-theme'
+    
+   }
+   else{
+    document.body.className='light-theme'
+   }
   return (
+   
     <BrowserRouter>
+    
       <Routes>
         <Route path="/" element={<HeaderSite />}>
           <Route index element={<Login/>}/>
@@ -36,7 +50,9 @@ function App() {
           <Route path="*" element={<Error />} />
         </Route>
       </Routes>
+     
     </BrowserRouter>
+
   );
 }
 export default App;

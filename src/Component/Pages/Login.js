@@ -23,6 +23,7 @@ const Login = ()=>{
    const dispatch = useDispatch();
   
   
+  
 
  
 
@@ -65,7 +66,8 @@ const convertedData = JSON.stringify(data)
 navigate('/expensetracker',{replace:true})
 localStorage.setItem('token', convertedData);
 localStorage.setItem('tokenId', data.idToken);
-dispatch(authActions.setToken(data.idToken))
+dispatch(authActions.setToken(data.idToken));
+dispatch(authActions.loggedIn(true));
 
 
 

@@ -50,12 +50,12 @@ async function editExpenses(){
 }
   return (
     <React.Fragment>
-        <Card className='m-2'>
+        <Card className='m-3 p-2'>
         <p>Amount:{props.expense.amount}</p>
         <p>Description:{props.expense.description}</p>
         <p>category:{props.expense.category}</p>
-        <Button onClick={deleteExpense}>Delete Expense</Button>
-        <Button onClick={editExpenses}>Edit The Expense</Button>
+        <Button className='m-2' onClick={deleteExpense}>Delete Expense</Button>
+        <Button className='m-2' onClick={editExpenses}>Edit The Expense</Button>
       
       </Card>
     </React.Fragment>

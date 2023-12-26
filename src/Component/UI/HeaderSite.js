@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 import {
   MDBNavbar,
   MDBContainer,
@@ -11,12 +13,24 @@ import {
   MDBCollapse
 } from 'mdb-react-ui-kit';
 import { Outlet } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { authActions } from '../store';
 
 export default function HeaderSite() {
   const [showNavColor, setShowNavColor] = useState(false);
   const [showNavColorSecond, setShowNavColorSecond] = useState(false);
   const [showNavColorThird, setShowNavColorThird] = useState(false);
+  const isLoggedIn = useSelector((state)=>state.auth.isLoggedIn)
+   const dispatch = useDispatch()
 
+   const navigate = useNavigate();
+
+  function logoutHandler(event){
+    event.preventDefault();
+dispatch(authActions.loggedIn(false));
+navigate('/login',{replace:true})
+
+  }
   return (
     <>
 
@@ -36,20 +50,32 @@ export default function HeaderSite() {
           </MDBNavbarToggler>
           <MDBCollapse show={showNavColorSecond} navbar id='navbarColor02'>
             <MDBNavbarNav className='me-auto mb-2 mb-lg-0'>
-              <MDBNavbarItem className='active'>
-                <MDBNavbarLink aria-current='page' href='#'>
-                  Home
-                </MDBNavbarLink>
-              </MDBNavbarItem>
-              <MDBNavbarItem>
-                <MDBNavbarLink href='#'>Features</MDBNavbarLink>
-              </MDBNavbarItem>
-              <MDBNavbarItem>
-                <MDBNavbarLink href='#'>Pricing</MDBNavbarLink>
-              </MDBNavbarItem>
-              <MDBNavbarItem>
-                <MDBNavbarLink href='#'>About</MDBNavbarLink>
-              </MDBNavbarItem>
+            <MDBNavbarItem className='active'>
+  <Link to='/' className='nav-link'>
+    Login
+  </Link>
+</MDBNavbarItem>
+{isLoggedIn && <MDBNavbarItem>
+  <Link to='/expensetracker' className='nav-link'>
+    Expenses
+  </Link>
+</MDBNavbarItem>}
+{isLoggedIn &&<MDBNavbarItem>
+  <Link to='/profile' className='nav-link'>
+    Profile
+  </Link>
+</MDBNavbarItem>}
+{isLoggedIn && <MDBNavbarItem>
+  <Link to='/forgotpassword' className='nav-link'>
+    Forgot Password
+  </Link>
+</MDBNavbarItem>}
+
+{isLoggedIn && <MDBNavbarItem>
+  <Button onClick={logoutHandler} className='nav-link'>
+    logout
+  </Button>
+</MDBNavbarItem>}
             </MDBNavbarNav>
           </MDBCollapse>
         </MDBContainer>
