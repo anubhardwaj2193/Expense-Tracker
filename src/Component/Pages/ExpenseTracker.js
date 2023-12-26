@@ -1,23 +1,42 @@
-import { Button } from "react-bootstrap";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useRef } from "react";
+import { Container,Form } from "react-bootstrap";
+import { MDBBtn, MDBInput } from "mdb-react-ui-kit";
 
-const ExpenseTracker = () => {
-function removeFromLocal (){
+const ExpenseTracker = ()=>{
 
-    localStorage.setItem('tokenId','')
+const emailRef = useRef();
+const descriptionRef = useRef();
+const categoryRef = useRef();
+
+
+async function saveExpense(event){
+event.preventDefault()
+console.log(emailRef.current.value,categoryRef.current.value)
 
 }
 
-  return (
+return (
     <React.Fragment>
-      <h1>Welcome To Expense Tracker</h1>
-      <Link to='/updateprofile'><Button >Complete your Profile</Button></Link>
-      <Link to='/verifyemail'><Button >Verify The Email</Button></Link>
-      <Link to="/Login"><Button onClick={removeFromLocal}>Logout</Button></Link>
-      
+<Container className='m-2'>
+    <Form>
+     <MDBInput wrapperClass='mb-4' label='amount' id='email' type='email' ref={emailRef}/>
+          <MDBInput wrapperClass='mb-4' label='description' id='description' type='description' ref={descriptionRef}/>
+          <Form.Select aria-label="Default select example" ref={categoryRef}>
+      <option>Open this select menu</option>
+      <option value="Food">Food</option>
+      <option value="Petrol">Petrol</option>
+      <option value="Salary">Movie</option>
+    </Form.Select>
+          <MDBBtn onClick={saveExpense}>Add Expense</MDBBtn>
+
+          </Form>
+</Container>
+
     </React.Fragment>
-  );
-};
+)
+
+}
+
+
 
 export default ExpenseTracker;

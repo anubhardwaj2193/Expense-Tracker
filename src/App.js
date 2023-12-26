@@ -14,11 +14,12 @@ import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "../node_modules/react-bootstrap/dist/react-bootstrap";
 import "../node_modules/bootstrap/dist/css/bootstrap.css";
 import HeaderSite from "./Component/UI/HeaderSite";
-import ExpenseTracker from "./Component/Pages/ExpenseTracker";
+import Profile from "./Component/Pages/Profile";
 import Error from "./Component/Pages/Error";
 import UpdateProfile from "./Component/Pages/UpdateProfile";
 import VerifyEmail from "./Component/Pages/VerifyEmail";
 import ForgotPassword from "./Component/Pages/ForgotPassword";
+import ExpenseTracker from "./Component/Pages/ExpenseTracker"
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route index element={<Login/>}/>
           <Route path="/login" element={<Login />} />
           <Route path="/expensetracker" element={<ExpenseTracker />} />
+          <Route path="/Profile" element={<Profile/>} />
           <Route path="updateprofile" element={<UpdateProfile/>}/>
           <Route path="verifyemail" element={<VerifyEmail/>}/>
           <Route path="forgotpassword" element={<ForgotPassword/>}/>
